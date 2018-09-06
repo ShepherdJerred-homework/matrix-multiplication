@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     int *result;
 
     int *myMatrix;
-    int *myResult;
+    int myResult;
 
     v = malloc(n * sizeof(int));
 
@@ -66,42 +66,47 @@ int main(int argc, char **argv) {
 
 //    printf("Printing values for pid %d\n", pid);
 
-    int j;
-    for (j = 0; j < n; j++) {
-        printf("pid %d  v %d\n", pid, v[j]);
-    }
+//    int j;
+//    for (j = 0; j < n; j++) {
+//        printf("pid %d  v %d\n", pid, v[j]);
+//    }
 
 //    printf("Second broadcasting pid %d\n", pid);
 //    printf("Done broadcasting pid %d\n", pid);
 
     myMatrix = malloc(n * sizeof(int));
-    myResult = malloc(m * sizeof(int));
 
     MPI_Scatter(matrix, n, MPI_INT, myMatrix, n, MPI_INT, MAIN_PID, MPI_COMM_WORLD);
 
-    printf("Scatter done for pid %d\n", pid);
+//    printf("Scatter done for pid %d\n", pid);
 
-    printf("Matrix index 0, pid %d\n", pid);
-    printf("%d %d\n", pid, myMatrix[0]);
+//    printf("Matrix index 0, pid %d\n", pid);
+//    printf("%d %d\n", pid, myMatrix[0]);
 
-    printf("My matrix pid %d   %d %d %d\n", pid, myMatrix[0], myMatrix[1], myMatrix[2]);
+//    printf("My matrix pid %d   %d %d %d\n", pid, myMatrix[0], myMatrix[1], myMatrix[2]);
 
     int i;
     for (i = 0; i < n; i++) {
-        myResult[i] = myMatrix[i] * v[i];
-        printf("pid %d  i %d  myMatrix %d  v %d  myResult %d\n", pid, i, myMatrix[i], v[i], myResult[i]);
+        myResult += myMatrix[i] * v[i];
+//        printf("pid %d  i %d  myMatrix %d  v %d  myResult %d\n", pid, i, myMatrix[i], v[i], myResult);
     }
 
-    printf("Starting gather\n");
+//    printf("result pid %d %d\n", pid, myResult);
 
-    MPI_Gather(myResult, n, MPI_INT, result, n, MPI_INT, MAIN_PID, MPI_COMM_WORLD);
 
-    printf("Gather done\n");
+//    printf("Starting gather\n");
 
     if (pid == MAIN_PID) {
         result = malloc(m * sizeof(int));
-        for (i = 0; i < n; i++) {
-            printf("%d", result[i]);
+    }
+
+    MPI_Gather(&myResult, 1, MPI_INT, result, 1, MPI_INT, MAIN_PID, MPI_COMM_WORLD);
+
+//    printf("Gather done\n");
+
+    if (pid == MAIN_PID) {
+        for (i = 0; i < m; i++) {
+            printf("%d\n", result[i]);
         }
 //        free(result);
 //        free(matrix);
