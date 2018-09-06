@@ -1,2 +1,2 @@
 # matrix-multiplication
-Multiply a matric with OpenMPI
+Multiply a matrix with OpenMPI
