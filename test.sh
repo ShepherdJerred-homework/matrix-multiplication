@@ -5,9 +5,9 @@ mkdir -p out
 
 mpicc src/${file}.c -o out/${file}
 
-testProcessCount=(4, 4);
+testProcessCount=(4, 4, 64, 3, 10, 10, 64);
 
-for i in `seq 1 2`;
+for i in `seq 1 7`;
 do
   echo "Test #${i}"
 

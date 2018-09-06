@@ -108,13 +108,13 @@ int main(int argc, char **argv) {
         for (i = 0; i < m; i++) {
             printf("%d\n", result[i]);
         }
-        free(result);
+//        free(result);
 //        free(matrix);
     }
 
-    free(myMatrix);
+//    free(myMatrix);
 //    free(myResult);
-    free(v);
+//    free(v);
 
     MPI_Finalize();
 }
